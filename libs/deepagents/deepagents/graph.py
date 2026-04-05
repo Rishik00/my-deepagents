@@ -226,6 +226,7 @@ def create_deep_agent(  # noqa: C901, PLR0912, PLR0915  # Complex graph assembly
     Returns:
         A configured deep agent.
     """
+    print("Getting the model here.")
     model = get_default_model() if model is None else resolve_model(model)
     backend = backend if backend is not None else StateBackend()
 
@@ -236,8 +237,7 @@ def create_deep_agent(  # noqa: C901, PLR0912, PLR0915  # Complex graph assembly
         create_summarization_middleware(model, backend),
         PatchToolCallsMiddleware(),
     ]
-    if skills is not None:
-        gp_middleware.append(SkillsMiddleware(backend=backend, sources=skills))
+
     gp_middleware.append(AnthropicPromptCachingMiddleware(unsupported_model_behavior="ignore"))
     general_purpose_spec: SubAgent = {  # ty: ignore[missing-typed-dict-key]
         **GENERAL_PURPOSE_SUBAGENT,
@@ -250,6 +250,9 @@ def create_deep_agent(  # noqa: C901, PLR0912, PLR0915  # Complex graph assembly
 
     # Set up subagent middleware
     inline_subagents: list[SubAgent | CompiledSubAgent] = []
+
+    ## Hmm, what are async subagents?
+    #
     async_subagents: list[AsyncSubAgent] = []
     for spec in subagents or []:
         if "graph_id" in spec:
