@@ -35,6 +35,9 @@ from deepagents.middleware.subagents import (
 )
 from deepagents.middleware.summarization import create_summarization_middleware
 
+print("Local imports resolved happily :)")
+
+
 BASE_AGENT_PROMPT = """You are a Deep Agent, an AI assistant that helps users accomplish tasks using tools. You respond with text and tool calls. The user can see your responses and tool outputs in real time.
 
 ## Core Behavior
@@ -79,6 +82,10 @@ def get_default_model() -> ChatAnthropic:
     return ChatAnthropic(
         model_name="claude-sonnet-4-6",
     )
+
+
+def _get_openrouter_default_model() -> None:
+    return NotImplemented("Stub yet to be filled")
 
 
 def create_deep_agent(  # noqa: C901, PLR0912, PLR0915  # Complex graph assembly logic with many conditional branches

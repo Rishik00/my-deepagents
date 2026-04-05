@@ -87,9 +87,8 @@ def resolve_model(model: str | BaseChatModel) -> BaseChatModel:
         Resolved `BaseChatModel` instance.
     """
     if isinstance(model, BaseChatModel):
+        print("Instance is BaseChatModel?")
         return model
-    if model.startswith("openai:"):
-        return init_chat_model(model, use_responses_api=True)
     if model.startswith("openrouter:"):
         check_openrouter_version()
         return init_chat_model(model, **_openrouter_attribution_kwargs())
